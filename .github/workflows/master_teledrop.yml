@@ -55,7 +55,7 @@ jobs:
         env:
           ConnectionStrings.TeledropDbConnection: ${{ secrets.CONNECTION_STRING }}
           AzureAd.Domain: ${{ secrets.AZURE_AD_DOMAIN }}
-          AzureAd.TenantId: ${{ secrets.AZURE_AD_DOMAIN }}
+          AzureAd.TenantId: ${{ secrets.AZURE_AD_TENANT_ID }}
           AzureAd.ClientId: ${{ secrets.AZURE_AD_CLIENT_ID }}
           Telegram.AppId: ${{ secrets.TELEGRAM_APP_ID }}
           Telegram.ApiHash: ${{ secrets.TELEGRAM_API_HASH }}
