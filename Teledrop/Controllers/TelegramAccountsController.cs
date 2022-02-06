@@ -29,7 +29,16 @@ namespace Teledrop.Controllers
         // GET: TelegramAccounts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.TelegramAccounts.ToListAsync());
+            try
+            {
+                return View(await _context.TelegramAccounts.ToListAsync());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                throw;
+            }
+            
         }
 
         // GET: TelegramAccounts/Details/5
