@@ -37,8 +37,8 @@ builder.Services.AddRazorPages()
 
 builder.Logging
     .ClearProviders()
-    .AddConsole().
-    AddTelegram(builder.Configuration.GetSection("Logging"));
+    .AddConsole()
+    .AddTelegram(builder.Configuration);
 
 var app = builder.Build();
 
