@@ -8,5 +8,7 @@
         public string DeviceModel { get; set; }
         public string SystemLanguageCode { get; set; }
         public string SystemVersion { get; set; }
+        public string BotToken { get; set; }
+        public string LogChatId { get; set; }
     }
 }

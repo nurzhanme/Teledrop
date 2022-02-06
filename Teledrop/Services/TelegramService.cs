@@ -6,13 +6,13 @@ using static TdLib.TdApi;
 
 namespace Teledrop.Services
 {
-    public class Telegram
+    public class TelegramService
     {
         private TdClient _client;
         private TelegramConfiguration _configuration;
         private string OK_Response = "ok";
 
-        public Telegram(IOptions<TelegramConfiguration> configuration)
+        public TelegramService(IOptions<TelegramConfiguration> configuration)
         {
             _client = new TdClient();
 

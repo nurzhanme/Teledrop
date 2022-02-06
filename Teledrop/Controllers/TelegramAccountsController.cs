@@ -17,9 +17,9 @@ namespace Teledrop.Controllers
     {
         private readonly ILogger<TelegramAccountsController> _logger;
         private readonly TeledropDbContext _context;
-        private readonly Telegram _telegram;
+        private readonly TelegramService _telegram;
 
-        public TelegramAccountsController(ILogger<TelegramAccountsController> logger, TeledropDbContext context, Telegram telegram)
+        public TelegramAccountsController(ILogger<TelegramAccountsController> logger, TeledropDbContext context, TelegramService telegram)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _context = context ?? throw new ArgumentNullException(nameof(context));

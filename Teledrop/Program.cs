@@ -8,12 +8,13 @@ using Microsoft.Identity.Web.UI;
 using Teledrop.Configurations;
 using Teledrop.Models;
 using Teledrop.Services;
+using X.Extensions.Logging.Telegram;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddScoped<Telegram>();
+builder.Services.AddScoped<TelegramService>();
 
 builder.Services.Configure<TelegramConfiguration>(builder.Configuration.GetSection("Telegram"));
 
@@ -34,8 +35,10 @@ builder.Services.AddDbContext<TeledropDbContext>(options =>
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
 
-
-
+builder.Logging
+    .ClearProviders()
+    .AddConsole().
+    AddTelegram(builder.Configuration.GetSection("Logging"));
 
 var app = builder.Build();
 
