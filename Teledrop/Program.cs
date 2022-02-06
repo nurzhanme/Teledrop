@@ -35,10 +35,9 @@ builder.Services.AddDbContext<TeledropDbContext>(options =>
 builder.Services.AddRazorPages()
     .AddMicrosoftIdentityUI();
 
-builder.Logging
-    .ClearProviders()
-    .AddConsole()
-    .AddTelegram(builder.Configuration);
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddTelegram(builder.Configuration);
 
 var app = builder.Build();
 
