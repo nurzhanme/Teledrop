@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -35,7 +35,7 @@ jobs:
           path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
@@ -47,26 +47,11 @@ jobs:
         with:
           name: .net-app
 
-      #substitute production appsettings entries to appsettings json file
-      - name: App Settings Variable Substitution
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: '**/appsettings.json'
-        env:
-          ConnectionStrings.TeledropDbConnection: ${{ secrets.CONNECTION_STRING }}
-          AzureAd.Domain: ${{ secrets.AZURE_AD_DOMAIN }}
-          AzureAd.TenantId: ${{ secrets.AZURE_AD_TENANT_ID }}
-          AzureAd.ClientId: ${{ secrets.AZURE_AD_CLIENT_ID }}
-          Logging.Telegram.AccessToken: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          Logging.Telegram.ChatId: ${{ secrets.TELEGRAM_LOG_CHAT_ID }}
-          Telegram.AppId: ${{ secrets.TELEGRAM_APP_ID }}
-          Telegram.ApiHash: ${{ secrets.TELEGRAM_API_HASH }}
-
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'teledrop'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9D2B63D14FEB4D1B908C9468881B662C }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A416BDB66BA7465DBA6C162662FC1757 }}
           package: .
