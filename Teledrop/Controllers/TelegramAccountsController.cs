@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,7 +19,7 @@ namespace Teledrop.Controllers
         private readonly ILogger<TelegramAccountsController> _logger;
         private readonly TeledropDbContext _context;
         private readonly TelegramService _telegram;
-
+        
         public TelegramAccountsController(ILogger<TelegramAccountsController> logger, TeledropDbContext context, TelegramService telegram)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -29,17 +30,31 @@ namespace Teledrop.Controllers
         // GET: TelegramAccounts
         public async Task<IActionResult> Index()
         {
-            try
-            {
-                return View(await _context.TelegramAccounts.ToListAsync());
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                throw;
-            }
-            
+            return View(await _context.TelegramAccounts.ToListAsync());
         }
+
+        // GET: TelegramAccounts/Join
+        public async Task<IActionResult> Join()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Join([Bind("Chatname")] JoinChatViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var accounts = await _context.TelegramAccounts.ToListAsync();
+
+                foreach (var account in accounts)
+                {
+                    BackgroundJob.Enqueue(() => _telegram.JoinChat(account.Phonenumber, vm.Chatname));
+                }
+            }
+            return View();
+        }
+
 
         // GET: TelegramAccounts/Details/5
         public async Task<IActionResult> Details(int? id)

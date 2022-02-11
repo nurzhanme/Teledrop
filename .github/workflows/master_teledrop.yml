@@ -54,6 +54,7 @@ jobs:
           files: '**/appsettings.json'
         env:
           ConnectionStrings.TeledropDbConnection: ${{ secrets.CONNECTION_STRING }}
+          ConnectionStrings.TeledropHangfireDbConnection: ${{ secrets.CONNECTION_STRING_HANGFIRE }}
           AzureAd.Domain: ${{ secrets.AZURE_AD_DOMAIN }}
           AzureAd.TenantId: ${{ secrets.AZURE_AD_TENANT_ID }}
           AzureAd.ClientId: ${{ secrets.AZURE_AD_CLIENT_ID }}

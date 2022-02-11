@@ -1,4 +1,5 @@
-using Microsoft.AspNetCore.Authentication;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -13,6 +14,12 @@ using X.Extensions.Logging.Telegram;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddHangfire(configuration => configuration
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UsePostgreSqlStorage(builder.Configuration.GetConnectionString("TeledropHangfireDbConnection")));
+
+builder.Services.AddHangfireServer();
 
 builder.Services.AddScoped<TelegramService>();
 
@@ -51,6 +58,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseHangfireDashboard();
 
 app.UseRouting();
 
