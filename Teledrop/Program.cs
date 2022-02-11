@@ -19,7 +19,7 @@ builder.Services.AddHangfire(configuration => configuration
                 .UseRecommendedSerializerSettings()
                 .UsePostgreSqlStorage(builder.Configuration.GetConnectionString("TeledropHangfireDbConnection")));
 
-builder.Services.AddHangfireServer();
+builder.Services.AddHangfireServer(x => x.WorkerCount = 1);
 
 builder.Services.AddScoped<TelegramService>();
 
