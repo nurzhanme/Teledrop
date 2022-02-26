@@ -1,22 +1,20 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Teledrop.Models;
+using Teledrop.Services;
 
 namespace Teledrop.Controllers
 {
     public class InstaAccountsController : Controller
     {
         private readonly TeledropDbContext _context;
+        private readonly InstaService _insta;
 
-        public InstaAccountsController(TeledropDbContext context)
+        public InstaAccountsController(TeledropDbContext context, InstaService insta)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _insta = insta ?? throw new ArgumentNullException(nameof(insta));
         }
 
         // GET: InstaAccounts
