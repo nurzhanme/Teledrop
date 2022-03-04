@@ -1,4 +1,5 @@
 ﻿#nullable disable
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Teledrop.Models;
@@ -6,6 +7,7 @@ using Teledrop.Services;
 
 namespace Teledrop.Controllers
 {
+    [Authorize]
     public class InstaAccountsController : Controller
     {
         private readonly TeledropDbContext _context;
