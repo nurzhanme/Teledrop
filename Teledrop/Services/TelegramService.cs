@@ -8,9 +8,9 @@ namespace Teledrop.Services
 {
     public class TelegramService
     {
-        private TdClient _client;
-        private TelegramConfiguration _configuration;
-        private string OK_Response = "ok";
+        private readonly TdClient _client;
+        private readonly TelegramConfiguration _configuration;
+        private const string OK_Response = "ok";
 
         public TelegramService(IOptions<TelegramConfiguration> configuration)
         {
@@ -39,7 +39,7 @@ namespace Teledrop.Services
 
             if (authState.GetType() == typeof(AuthorizationState.AuthorizationStateWaitPhoneNumber))
             {
-                Ok ok = await _client.SetAuthenticationPhoneNumberAsync(phonenumber);
+                await _client.SetAuthenticationPhoneNumberAsync(phonenumber);
                 return AuthorizationStateEnum.WaitCode;
             }
             else if (authState.GetType() == typeof(AuthorizationState.AuthorizationStateReady))
@@ -71,7 +71,7 @@ namespace Teledrop.Services
 
         public async Task<bool> JoinChat(string phonenumber, string chatName)
         {
-            var authState = await Auth(phonenumber);
+            await Auth(phonenumber);
 
             var checkChatInviteInfo = await _client.SearchPublicChatAsync(chatName);
 
