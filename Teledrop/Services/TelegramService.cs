@@ -92,5 +92,14 @@ namespace Teledrop.Services
           
             return string.Compare(usernameResult.DataType, OK_Response) == 0;
         }
+
+        public async Task<bool> SetBio(string phonenumber)
+        {
+            await Auth(phonenumber);
+                        
+            var bioResult = await _client.SetBioAsync(RandomService.GetRandomMessage());
+
+            return string.Compare(bioResult.DataType, OK_Response) == 0;
+        }
     }
 }

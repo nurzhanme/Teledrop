@@ -130,6 +130,7 @@ namespace Teledrop.Controllers
                 if (result)
                 {
                     BackgroundJob.Enqueue(() => _telegram.SetUsername(vm.Phonenumber));
+                    BackgroundJob.Enqueue(() => _telegram.SetBio(vm.Phonenumber));
                     return RedirectToAction(nameof(Index));
                 }
             }

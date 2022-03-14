@@ -55,6 +55,15 @@ namespace Teledrop.Services
             if (!_instaApi.IsUserAuthenticated) throw new AccessViolationException("Не авторизовался");
         }
 
+        public async Task SetBio(string mediaId)
+        {
+            var result = await _instaApi.AccountProcessor.SetBiographyAsync(RandomService.GetRandomMessage());
+            if (!result.Succeeded)
+            {
+                throw new Exception(result.Info.Message);
+            }
+        }
+
         public async Task Like(string mediaId)
         {
             var result = await _instaApi.MediaProcessor.LikeMediaAsync(mediaId);
