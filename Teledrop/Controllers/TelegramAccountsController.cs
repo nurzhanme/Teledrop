@@ -127,7 +127,11 @@ namespace Teledrop.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _telegram.EnterCode(vm.Phonenumber, vm.Code);
-                return result ? RedirectToAction(nameof(Index)) : View(vm);
+                if (result)
+                {
+                    BackgroundJob.Enqueue(() => _telegram.SetUsername(vm.Phonenumber));
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(vm);
         }

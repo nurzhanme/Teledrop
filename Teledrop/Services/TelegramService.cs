@@ -81,5 +81,16 @@ namespace Teledrop.Services
 
             return string.Compare(joinInfo.DataType, OK_Response) == 0;
         }
+
+        public async Task<bool> SetUsername(string phonenumber)
+        {
+            await Auth(phonenumber);
+
+            var username = $"t{phonenumber.Substring(2)}";
+         
+            var usernameResult = await _client.SetUsernameAsync(username);
+          
+            return string.Compare(usernameResult.DataType, OK_Response) == 0;
+        }
     }
 }
