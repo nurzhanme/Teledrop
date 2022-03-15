@@ -3,6 +3,8 @@ using TdLib;
 using Teledrop.Configurations;
 using Teledrop.Enums;
 using static TdLib.TdApi;
+using static TdLib.TdApi.InputChatPhoto;
+using static TdLib.TdApi.InputFile;
 
 namespace Teledrop.Services
 {
@@ -100,6 +102,28 @@ namespace Teledrop.Services
             var bioResult = await _client.SetBioAsync(RandomService.GetRandomMessage());
 
             return string.Compare(bioResult.DataType, OK_Response) == 0;
+        }
+
+        public async Task<bool> SetProfilePicture(string phonenumber, byte[] byteArray)
+        {
+            await Auth(phonenumber);
+
+            var filename = "image.jpg";
+
+            await System.IO.File.WriteAllBytesAsync(filename, byteArray);
+
+
+            var inputFileLocal = new InputFileLocal();
+            inputFileLocal.Path = filename;
+
+            var inputChatPhoto = new InputChatPhotoStatic();
+            inputChatPhoto.Photo = inputFileLocal;
+
+            var res = await _client.SetProfilePhotoAsync(inputChatPhoto);
+
+            System.IO.File.Delete(filename);
+
+            return string.Compare(res.DataType, OK_Response) == 0;
         }
     }
 }
