@@ -64,6 +64,16 @@ namespace Teledrop.Services
             }
         }
 
+        public async Task ChangeProfilePicture(byte[] imageBytes)
+        {
+            var result = await _instaApi.AccountProcessor.ChangeProfilePictureAsync(imageBytes);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception(result.Info.Message);
+            }
+        }
+
         public async Task Like(string mediaId)
         {
             var result = await _instaApi.MediaProcessor.LikeMediaAsync(mediaId);
