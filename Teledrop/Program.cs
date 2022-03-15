@@ -21,6 +21,8 @@ builder.Services.AddHangfire(configuration => configuration
 
 builder.Services.AddHangfireServer(x => x.WorkerCount = 1);
 
+builder.Services.AddHttpClient();
+
 builder.Services.AddScoped<TelegramService>();
 builder.Services.AddScoped<InstaService>();
 
