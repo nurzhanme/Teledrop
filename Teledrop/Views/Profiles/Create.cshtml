@@ -1,4 +1,4 @@
-﻿@model Teledrop.Models.Profile
+﻿@model Teledrop.Models.CreateProfileViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -12,26 +12,6 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Firstname" class="control-label"></label>
-                <input asp-for="Firstname" class="form-control" />
-                <span asp-validation-for="Firstname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProfileImage" class="control-label"></label>
-                <input asp-for="ProfileImage" class="form-control" />
-                <span asp-validation-for="ProfileImage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProfileImageBase64" class="control-label"></label>
-                <input asp-for="ProfileImageBase64" class="form-control" />
-                <span asp-validation-for="ProfileImageBase64" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="Account" class="control-label"></label>
                 <input asp-for="Account" class="form-control" />

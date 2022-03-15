@@ -56,23 +56,28 @@ namespace Teledrop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Firstname,ProfileImage,ProfileImageBase64,Email,Account,EvmAddress")] Profile profile)
+        public async Task<IActionResult> Create([Bind("Account,EvmAddress")] CreateProfileViewModel profileVM)
         {
             if (ModelState.IsValid)
             {
                 var httpClient = _httpClientFactory.CreateClient();
                 var imageByteArray = await httpClient.GetByteArrayAsync("https://thispersondoesnotexist.com/image");
 
-                profile.Firstname = RandomService.GetRandomName();
-                profile.ProfileImage = imageByteArray;
-                profile.ProfileImageBase64 = Convert.ToBase64String(imageByteArray);
-
+                Profile profile = new Profile
+                {
+                    Firstname = RandomService.GetRandomName(),
+                    ProfileImage = imageByteArray,
+                    ProfileImageBase64 = Convert.ToBase64String(imageByteArray),
+                    Account = profileVM.Account,
+                    Email = $"{profileVM.Account}@gmail.com",
+                    EvmAddress = profileVM.EvmAddress
+                };
 
                 _context.Add(profile);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(profile);
+            return View(profileVM);
         }
 
         // GET: Profiles/Edit/5
