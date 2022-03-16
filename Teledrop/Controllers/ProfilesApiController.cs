@@ -19,7 +19,8 @@ namespace Teledrop.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> GetProfileShortInfo(string account)
+        [Route("name")]
+        public async Task<IActionResult> GetName(string account)
         {
             var profile = await _context.Profiles.FirstOrDefaultAsync(x => x.Account == account);
             if (profile == null)
@@ -29,8 +30,24 @@ namespace Teledrop.Controllers
 
             return Ok(new
             {
-                Firstname = profile.Firstname,
-                ProfileImageBase64 = profile.ProfileImageBase64
+                Firstname = profile.Firstname
+            });
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("image")]
+        public async Task<IActionResult> GetImageBase64(string account)
+        {
+            var profile = await _context.ProfileImages.FirstOrDefaultAsync(x => x.Account == account);
+            if (profile == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new
+            {
+                Image = Convert.ToBase64String(profile.Image)
             });
         }
     }

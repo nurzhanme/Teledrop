@@ -15,7 +15,10 @@ namespace Teledrop.Models
             modelBuilder.Entity<Profile>().Property(x => x.Account).IsRequired();
 
             modelBuilder.Entity<Profile>().HasIndex(x => x.EvmAddress).IsUnique();
-            
+
+            modelBuilder.Entity<ProfileImage>().HasIndex(x => x.Account).IsUnique();
+            modelBuilder.Entity<ProfileImage>().Property(x => x.Account).IsRequired();
+
             modelBuilder.Entity<TelegramAccount>().HasIndex(x => x.Phonenumber).IsUnique();
             modelBuilder.Entity<TelegramAccount>().Property(x => x.Phonenumber).IsRequired();
 
@@ -24,6 +27,7 @@ namespace Teledrop.Models
         }
 
         public DbSet<Profile> Profiles { get; set; }
+        public DbSet<ProfileImage> ProfileImages { get; set; }
         public DbSet<TelegramAccount> TelegramAccounts { get; set; }
         public DbSet<InstaAccount> InstaAccounts { get; set; }
     }

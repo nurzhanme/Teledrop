@@ -63,17 +63,22 @@ namespace Teledrop.Controllers
                 var httpClient = _httpClientFactory.CreateClient();
                 var imageByteArray = await httpClient.GetByteArrayAsync("https://thispersondoesnotexist.com/image");
 
-                Profile profile = new Profile
+                var profile = new Profile
                 {
                     Firstname = RandomService.GetRandomName(),
-                    ProfileImage = imageByteArray,
-                    ProfileImageBase64 = Convert.ToBase64String(imageByteArray),
                     Account = profileVM.Account,
-                    Email = $"{profileVM.Account}@gmail.com",
                     EvmAddress = profileVM.EvmAddress
                 };
 
+                var profileImage = new ProfileImage
+                {
+                    Account = profileVM.Account,
+                    Image = imageByteArray 
+                };
+
                 _context.Add(profile);
+                _context.Add(profileImage);
+                
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
