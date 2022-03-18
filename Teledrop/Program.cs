@@ -25,8 +25,10 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<TelegramService>();
 builder.Services.AddScoped<InstaService>();
+builder.Services.AddScoped<YoutubeService>();
 
 builder.Services.Configure<TelegramConfiguration>(builder.Configuration.GetSection("Telegram"));
+builder.Services.Configure<YoutubeConfiguration>(builder.Configuration.GetSection("Youtube"));
 
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));

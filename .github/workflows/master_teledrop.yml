@@ -62,6 +62,8 @@ jobs:
           Logging.Telegram.ChatId: ${{ secrets.TELEGRAM_LOG_CHAT_ID }}
           Telegram.AppId: ${{ secrets.TELEGRAM_APP_ID }}
           Telegram.ApiHash: ${{ secrets.TELEGRAM_API_HASH }}
+          Youtube.ClientId: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          Youtube.ClientSecret: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp

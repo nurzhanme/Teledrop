@@ -8,6 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis" Version="1.56.0" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.56.0" />
+    <PackageReference Include="Google.Apis.YouTube.v3" Version="1.56.0.2630" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.7.28" />
     <PackageReference Include="Hangfire.PostgreSql" Version="1.9.7" />
     <PackageReference Include="InstagramApiSharp" Version="1.7.2" />
