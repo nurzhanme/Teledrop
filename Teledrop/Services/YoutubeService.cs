@@ -63,6 +63,18 @@ namespace Teledrop.Services
             return (isAccessTokenUpdated, isAccessTokenUpdated ? await dataStore.GetJsonAsync(user) : accessToken);
         }
 
+        public async Task<string> GetMyChannelId()
+        {
+            var channelsResource = new ChannelsResource(_clientService);
+
+            var request = channelsResource.List(SNIPPET);
+            request.Mine = true;
+
+            var result = await request.ExecuteAsync();
+
+            return result.Items[0].Id;
+        }
+
         public async Task Like(string mediaId)
         {
             var videosResource = new VideosResource(_clientService);
