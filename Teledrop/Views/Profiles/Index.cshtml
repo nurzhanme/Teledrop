@@ -21,6 +21,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.EvmAddress)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YoutubeChannelId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiscordUsername)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -37,8 +43,15 @@
                 @Html.DisplayFor(modelItem => item.EvmAddress)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.YoutubeChannelId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiscordUsername)
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="AddYoutube" asp-route-id="@item.Id">Add youtube channel</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

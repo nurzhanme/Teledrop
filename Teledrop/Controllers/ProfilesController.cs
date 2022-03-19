@@ -15,10 +15,12 @@ namespace Teledrop.Controllers
     {
         private readonly TeledropDbContext _context;
         private readonly IHttpClientFactory _httpClientFactory;
-        public ProfilesController(TeledropDbContext context, IHttpClientFactory httpClientFactory)
+        private readonly YoutubeService _youtubeService;
+        public ProfilesController(TeledropDbContext context, IHttpClientFactory httpClientFactory, YoutubeService youtubeService)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+            _youtubeService = youtubeService ?? throw new ArgumentNullException(nameof(youtubeService));
         }
 
         // GET: Profiles
@@ -41,6 +43,38 @@ namespace Teledrop.Controllers
             {
                 return NotFound();
             }
+
+            return View(profile);
+        }
+
+        public async Task<IActionResult> AddYoutube(int? id)
+        {
+            var profile = await _context.Profiles
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (profile == null)
+            {
+                return NotFound();
+            }
+
+            var res = await _youtubeService.Auth();
+            if (!res.Item1) {
+                return BadRequest();
+            }
+
+            var auth = new YoutubeAuth
+            {
+                Profile = profile,
+                ProfileId = profile.Id,
+                Token = res.Item2
+            };
+
+            var channelId = await _youtubeService.GetMyChannelId();
+            profile.YoutubeChannelId = channelId;
+
+            _context.Add(auth);
+            _context.Update(profile);
+
+            await _context.SaveChangesAsync();
 
             return View(profile);
         }
