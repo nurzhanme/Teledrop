@@ -62,11 +62,19 @@ namespace Teledrop.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("DiscordUsername")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("EvmAddress")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Firstname")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("YoutubeChannelId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -76,6 +84,9 @@ namespace Teledrop.Migrations
                         .IsUnique();
 
                     b.HasIndex("EvmAddress")
+                        .IsUnique();
+
+                    b.HasIndex("YoutubeChannelId")
                         .IsUnique();
 
                     b.ToTable("Profiles");
@@ -123,6 +134,46 @@ namespace Teledrop.Migrations
                         .IsUnique();
 
                     b.ToTable("TelegramAccounts");
+                });
+
+            modelBuilder.Entity("Teledrop.Models.YoutubeAuth", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ProfileId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileId")
+                        .IsUnique();
+
+                    b.ToTable("YoutubeAuths");
+                });
+
+            modelBuilder.Entity("Teledrop.Models.YoutubeAuth", b =>
+                {
+                    b.HasOne("Teledrop.Models.Profile", "Profile")
+                        .WithOne("YoutubeAuth")
+                        .HasForeignKey("Teledrop.Models.YoutubeAuth", "ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Profile");
+                });
+
+            modelBuilder.Entity("Teledrop.Models.Profile", b =>
+                {
+                    b.Navigation("YoutubeAuth")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
