@@ -16,6 +16,8 @@ namespace Teledrop.Models
 
             modelBuilder.Entity<Profile>().HasIndex(x => x.EvmAddress).IsUnique();
 
+            modelBuilder.Entity<Profile>().HasIndex(x => x.YoutubeChannelId).IsUnique();
+
             modelBuilder.Entity<ProfileImage>().HasIndex(x => x.Account).IsUnique();
             modelBuilder.Entity<ProfileImage>().Property(x => x.Account).IsRequired();
 
@@ -30,5 +32,6 @@ namespace Teledrop.Models
         public DbSet<ProfileImage> ProfileImages { get; set; }
         public DbSet<TelegramAccount> TelegramAccounts { get; set; }
         public DbSet<InstaAccount> InstaAccounts { get; set; }
+        public DbSet<YoutubeAuth> YoutubeAuths { get; set; }
     }
 }
