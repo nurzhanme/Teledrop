@@ -94,8 +94,10 @@ namespace Teledrop.Controllers
         {
             if (ModelState.IsValid)
             {
+                var profileImageUrl = "https://thispersondoesnotexist.com/image";
+
                 var httpClient = _httpClientFactory.CreateClient();
-                var imageByteArray = await httpClient.GetByteArrayAsync("https://thispersondoesnotexist.com/image");
+                var imageByteArray = await httpClient.GetByteArrayAsync(profileImageUrl);
 
                 var profile = new Profile
                 {

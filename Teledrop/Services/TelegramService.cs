@@ -21,7 +21,7 @@ namespace Teledrop.Services
             _configuration = configuration.Value ?? throw new ArgumentNullException(nameof(configuration)); 
         }
 
-        public async Task<AuthorizationStateEnum> Auth(string phonenumber)
+        public async Task<TelegramAuthorizationState> Auth(string phonenumber)
         {
             await _client.SetTdlibParametersAsync(new TdlibParameters
             {
@@ -42,26 +42,26 @@ namespace Teledrop.Services
             if (authState.GetType() == typeof(AuthorizationState.AuthorizationStateWaitPhoneNumber))
             {
                 await _client.SetAuthenticationPhoneNumberAsync(phonenumber);
-                return AuthorizationStateEnum.WaitCode;
+                return TelegramAuthorizationState.WaitCode;
             }
             else if (authState.GetType() == typeof(AuthorizationState.AuthorizationStateReady))
             {
-                return AuthorizationStateEnum.Ready;
+                return TelegramAuthorizationState.Ready;
             }
 
-            return AuthorizationStateEnum.Unknown;
+            return TelegramAuthorizationState.Unknown;
         }
 
         public async Task<bool> EnterCode(string phonenumber, string code)
         {
             var authState = await Auth(phonenumber);
 
-            if (authState == AuthorizationStateEnum.Ready)
+            if (authState == TelegramAuthorizationState.Ready)
             {
                 return true;
             }
 
-            if (authState == AuthorizationStateEnum.WaitCode)
+            if (authState == TelegramAuthorizationState.WaitCode)
             {
                 var res = await _client.CheckAuthenticationCodeAsync(code);
 

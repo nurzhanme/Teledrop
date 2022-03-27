@@ -80,7 +80,7 @@ namespace Teledrop.Services
             var videosResource = new VideosResource(_clientService);
             var request = videosResource.Rate(mediaId, RatingEnum.Like);
 
-            var result = await request.ExecuteAsync();
+            await request.ExecuteAsync();
         }
 
         public async Task Subscribe(string channelId)
@@ -94,7 +94,7 @@ namespace Teledrop.Services
             };
 
             var request = subscriptionsResource.Insert(subscription, SNIPPET);
-            var result = await request.ExecuteAsync();
+            await request.ExecuteAsync();
         }
 
         public async Task<string> GetChannelIdBy(string mediaId)

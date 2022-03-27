@@ -91,7 +91,7 @@ namespace Teledrop.Controllers
             {
                 var authResult = await _telegram.Auth(telegramAccount.Phonenumber);
 
-                if (authResult == Enums.AuthorizationStateEnum.Unknown)
+                if (authResult == Enums.TelegramAuthorizationState.Unknown)
                 {
                     return View(telegramAccount);
                 }

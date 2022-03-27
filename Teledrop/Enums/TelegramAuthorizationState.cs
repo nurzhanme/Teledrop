@@ -1,6 +1,6 @@
 ﻿namespace Teledrop.Enums
 {
-    public enum AuthorizationStateEnum
+    public enum TelegramAuthorizationState
     {
         WaitPhoneNumber,
         WaitCode,

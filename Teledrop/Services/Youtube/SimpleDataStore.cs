@@ -25,8 +25,6 @@ namespace Teledrop.Services.Youtube
 
         public Task<T> GetAsync<T>(string key)
         {
-            Type typeParameterType = typeof(T);
-
             T value = string.IsNullOrWhiteSpace(json) ? default : JsonConvert.DeserializeObject<T>(json);
 
             return Task.FromResult(value);
