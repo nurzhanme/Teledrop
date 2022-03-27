@@ -1,6 +1,7 @@
 ﻿using InstagramApiSharp.API;
 using InstagramApiSharp.API.Builder;
 using InstagramApiSharp.Classes;
+using Teledrop.Exceptions;
 
 namespace Teledrop.Services
 {
@@ -8,7 +9,7 @@ namespace Teledrop.Services
     {
         private IInstaApi _instaApi;
 
-        public async Task<string> Login(string username, string password)
+        public async Task<(bool, string)> Login(string username, string password)
         {
 
             _instaApi = InstaApiBuilder.CreateBuilder()
@@ -19,27 +20,15 @@ namespace Teledrop.Services
             await _instaApi.SendRequestsBeforeLoginAsync();
             var result = await _instaApi.LoginAsync();
 
-            if (!result.Succeeded)
+            if (!result.Succeeded || !_instaApi.IsUserAuthenticated)
             {
-                if (result.Info.ResponseType == ResponseType.CheckPointRequired
-                    || result.Info.ResponseType == ResponseType.ChallengeRequired
-                    || result.Info.Message == "Challenge is required")
-                {
-                    throw new Exception("Инста просит проверку логина " + username);
-                }
-
-                throw new Exception("не получилось авторизоваться" + result.Info.Message);
-            }
-
-            if (!_instaApi.IsUserAuthenticated)
-            {
-                throw new AccessViolationException(result.Info?.Message);
+                throw new InstaException(result.Info.Message);
             }
 
             await _instaApi.SendRequestsAfterLoginAsync();
 
             var sessionData = _instaApi.GetStateDataAsString();
-            return sessionData;
+            return (true, sessionData);
         }
 
         public async Task Login(string sessionData)
@@ -52,7 +41,7 @@ namespace Teledrop.Services
 
             _instaApi.LoadStateDataFromString(sessionData);
 
-            if (!_instaApi.IsUserAuthenticated) throw new AccessViolationException("Не авторизовался");
+            if (!_instaApi.IsUserAuthenticated) throw new InstaException("Not Authorized");
         }
 
         public async Task SetBio(string mediaId)
@@ -70,7 +59,7 @@ namespace Teledrop.Services
 
             if (!result.Succeeded)
             {
-                throw new Exception(result.Info.Message);
+                throw new InstaException(result.Info.Message);
             }
         }
 
@@ -79,7 +68,7 @@ namespace Teledrop.Services
             var result = await _instaApi.MediaProcessor.LikeMediaAsync(mediaId);
             if (!result.Succeeded)
             {
-                throw new Exception(result.Info.Message);
+                throw new InstaException(result.Info.Message);
             }
         }
 
@@ -89,7 +78,7 @@ namespace Teledrop.Services
 
             if (!result.Succeeded)
             {
-                throw new Exception(result.Info.Message);
+                throw new InstaException(result.Info.Message);
             }
         }
 
@@ -99,7 +88,7 @@ namespace Teledrop.Services
 
             if (!result.Succeeded)
             {
-                throw new Exception(result.Info.Message);
+                throw new InstaException(result.Info.Message);
             }
         }
 
@@ -109,7 +98,7 @@ namespace Teledrop.Services
 
             if (!result.Succeeded)
             {
-                throw new Exception(result.Info.Message);
+                throw new InstaException(result.Info.Message);
             }
 
             return result.Value.Pk;
