@@ -49,7 +49,7 @@ namespace Teledrop.Services
             var result = await _instaApi.AccountProcessor.SetBiographyAsync(RandomService.GetRandomMessage());
             if (!result.Succeeded)
             {
-                throw new Exception(result.Info.Message);
+                throw new InstaException(result.Info.Message);
             }
         }
 
