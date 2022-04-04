@@ -31,7 +31,7 @@ namespace Teledrop.Services
                 DeviceModel = _configuration.DeviceModel,
                 SystemLanguageCode = _configuration.SystemLanguageCode,
                 SystemVersion = _configuration.SystemVersion,
-                DatabaseDirectory = $"db/{phonenumber}"
+                DatabaseDirectory = $"{phonenumber}"
 
             });
 
@@ -44,7 +44,13 @@ namespace Teledrop.Services
                 await _client.SetAuthenticationPhoneNumberAsync(phonenumber);
                 return TelegramAuthorizationState.WaitCode;
             }
-            else if (authState.GetType() == typeof(AuthorizationState.AuthorizationStateReady))
+
+            if (authState.GetType() == typeof(AuthorizationState.AuthorizationStateWaitCode))
+            {
+                return TelegramAuthorizationState.WaitCode;
+            }
+
+            if (authState.GetType() == typeof(AuthorizationState.AuthorizationStateReady))
             {
                 return TelegramAuthorizationState.Ready;
             }
